@@ -1,0 +1,339 @@
+package com.lixing.exampletest.moreTurn.bigshenlun.activity;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
+
+import androidx.annotation.Nullable;
+
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AlertDialog;
+
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.baidu.ocr.ui.camera.CameraActivity;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechRecognizer;
+import com.lixing.exampletest.R;
+import com.lixing.exampletest.app.AppManager;
+import com.lixing.exampletest.common.Constants;
+import com.lixing.exampletest.correct.bean.CorrectReCodeBean;
+import com.lixing.exampletest.correct.bean.PaperAnswerListBean;
+import com.lixing.exampletest.correct.bean.PaperListBean;
+import com.lixing.exampletest.correct.bean.PaperParsingBean;
+import com.lixing.exampletest.correct.bean.SearchListBean;
+import com.lixing.exampletest.correct.constract.DtCorrectConstract;
+import com.lixing.exampletest.correct.model.DtCorrectModel;
+import com.lixing.exampletest.correct.presenter.DtCorrectPresenter;
+import com.lixing.exampletest.moreTurn.bigshenlun.activity.adapter.B_ShenlunPictureAdapter;
+import com.lixing.exampletest.moreTurn.bigshenlun.activity.bean.ShenlunIdol;
+import com.lixing.exampletest.moreTurn.bigshenlun.activity.bean.ShenlunMaterialBean;
+import com.lixing.exampletest.moreTurn.bigshenlun.activity.dialog.ShenlunMaterialDialogFragment;
+import com.lixing.exampletest.moreTurn.bigshenlun.activity.frgment.ModelFragment;
+import com.lixing.exampletest.moreTurn.training.TopicDialogFragment;
+import com.lixing.exampletest.shenlun.FileUtil;
+import com.lixing.exampletest.shenlun.JsonParser;
+import com.lixing.exampletest.shenlun.RecognizeService;
+import com.lixing.exampletest.shenlun.step2.L_NineActivity;
+import com.lixing.exampletest.stroge.sp.SPUtil;
+import com.lixing.exampletest.ui.activity.MainActivity;
+import com.lixing.exampletest.ui.activity.base.BaseResult;
+import com.lixing.exampletest.ui.activity.base.MvpActivity;
+import com.lixing.exampletest.ui.activity.base.mvp.BasePresenter;
+import com.lixing.exampletest.ui.training.mvp.shenlun.chooseTopic.bean.ShenlunAnswer;
+import com.lixing.exampletest.ui.training.mvp.shenlun.chooseTopic.constract.ShenlunAnswer_Constract;
+import com.lixing.exampletest.ui.training.mvp.shenlun.chooseTopic.model.ShenlunAnswerModel;
+import com.lixing.exampletest.ui.training.mvp.shenlun.chooseTopic.presenter.ShenlunAnswerPresenter;
+import com.lixing.exampletest.utils.CommonDef;
+import com.lixing.exampletest.utils.KeyBordS;
+import com.lixing.exampletest.utils.LogUtil;
+import com.lixing.exampletest.utils.T;
+import com.lixing.exampletest.widget.CustomViewPager;
+import com.lixing.exampletest.widget.VoiceDialogManager;
+import com.lixing.exampletest.widget.dialog.AddTagDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
+
+public class B_Shenlun_EightActivity extends MvpActivity implements DtCorrectConstract.View, ShenlunAnswer_Constract.View {
+    @BindView(R.id.tv_material)
+    TextView tvMaterial;
+    @BindView(R.id.tv_original)
+    TextView tvOriginal;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
+    @BindView(R.id.et_input1)
+    EditText et_input1;
+
+
+    //    @BindView(R.id.et_subtitle1)
+//    TextView et_subtitle1;
+    @BindView(R.id.viewpager)
+    CustomViewPager viewpager;
+    private String essayTrainId;
+    private AlertDialog.Builder alertDialog;
+    private String mEngineType = SpeechConstant.TYPE_CLOUD;
+    // 语音识别对象
+    private SpeechRecognizer mIat;
+    private static String TAG = "B_Shenlun_NineActivity";
+    private VoiceDialogManager voiceDialogManager;
+    private static final int REQUEST_CODE_ACCURATE_BASIC = 107;
+    // 用HashMap存储听写结果
+    private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
+
+    private String title;
+    private String mTitle;
+    private String content;
+    private List<ShenlunMaterialBean.DataBean> dataBeans = new ArrayList<>();
+    private ShenlunMaterialDialogFragment materialDialogFragment;
+    private TopicDialogFragment topicDialogFragment;
+
+    private List<Fragment> fragmentList = new ArrayList<>();
+    private HashMap<String, BasePresenter> hashMap;
+    private static final String ShenlunAnswer = "shenlunAnswer";
+    private static final String CorrectAnswer = "correctAnswer";
+
+    public static boolean show(Context context, String essayTrainId, String mTitle, String title, String content, List<ShenlunMaterialBean.DataBean> dataBeans) {
+        Intent intent = new Intent(context, B_Shenlun_EightActivity.class);
+        intent.putExtra("essayTrainId", essayTrainId);
+        intent.putExtra("mTitle", mTitle);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
+        intent.putParcelableArrayListExtra("dataBeans", (ArrayList<? extends Parcelable>) dataBeans);
+        context.startActivity(intent);
+        return true;
+    }
+
+    public static void show(Context context) {
+        Intent intent = new Intent(context, B_Shenlun_EightActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 识别成功回调，通用文字识别（高精度版）
+        if (requestCode == REQUEST_CODE_ACCURATE_BASIC && resultCode == Activity.RESULT_OK) {
+            RecognizeService.recAccurateBasic(this, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath(),
+                    new RecognizeService.ServiceListener() {
+                        @Override
+                        public void onResult(String result) {
+                            // infoPopText(result);
+                            et_input1.setText(result);
+                        }
+                    });
+        }
+    }
+
+    @Override
+    protected void initView() {
+        tvRight.setText(getResources().getString(R.string.complete));
+        dataBeans = getIntent().getParcelableArrayListExtra("dataBeans");
+        title = getIntent().getStringExtra("title");
+        mTitle = getIntent().getStringExtra("mTitle");
+        content = getIntent().getStringExtra("content");
+        essayTrainId = getIntent().getStringExtra("essayTrainId");
+        initTopic(title, content);
+        initMaterial(dataBeans);
+        //拍照和语音
+        alertDialog = new AlertDialog.Builder(this);
+        mIat = SpeechRecognizer.createRecognizer(B_Shenlun_EightActivity.this, mInitListener);
+        setParam();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            //JSONArray jsonArray=new JSONArray(essayTrainIds);
+            jsonObject.put("exam_id_", essayTrainId);
+            jsonObject.put("order_", 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ((ShenlunAnswerPresenter) getPresenter(ShenlunAnswer)).requestShenlunIdol(Constants.Find_idol, jsonObject.toString());
+    }
+
+    private void initTopic(String title, String content) {
+        if (title != null && content != null) {
+            topicDialogFragment = TopicDialogFragment.newInstance(title, content);
+        }
+    }
+
+    private void initMaterial(List<ShenlunMaterialBean.DataBean> dataBeans) {
+        if (dataBeans != null) {
+            materialDialogFragment = ShenlunMaterialDialogFragment.newInstance(dataBeans);
+        }
+    }
+
+    private void showTip(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                T.showShort(str);
+//                mToast.setText(str);
+//                mToast.show();
+            }
+        });
+    }
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener = new InitListener() {
+
+        @Override
+        public void onInit(int code) {
+            LogUtil.e(TAG, "SpeechRecognizer init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                Log.e(TAG, "初始化失败,错误码：" + code);
+                showTip("初始化失败,错误码：" + code);
+            }
+        }
+    };
+
+
+    @Override
+    protected Map<String, BasePresenter> createPresenter() {
+        hashMap = new HashMap<>();
+        hashMap.put(ShenlunAnswer, new ShenlunAnswerPresenter(new ShenlunAnswerModel(), this));
+        hashMap.put(CorrectAnswer, new DtCorrectPresenter(new DtCorrectModel(), this));
+        return hashMap;
+    }
+
+    @Override
+    protected void initMvpView() {
+
+    }
+
+    @Override
+    protected ShenlunAnswerPresenter initPresenter(@Nullable Bundle savedInstanceState) {
+        return new ShenlunAnswerPresenter(new ShenlunAnswerModel(), this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_shenlun_eight;
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.tv_right, R.id.tv_material, R.id.tv_original, R.id.tv_apply_artificial, R.id.tv_commit_and_save, R.id.iv_picture, R.id.iv_voice})
+    public void onViewClicked(View view) {
+        //ViewAnimationUtil.clickAnim(view, null);
+        switch (view.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+            case R.id.tv_material://查看材料
+                if (materialDialogFragment != null) {
+                    materialDialogFragment.show(getSupportFragmentManager(), TAG);
+                }
+                break;
+            case R.id.tv_right:
+                //finish();
+//                AppManager.getAppManager().finishAllActivity();
+//                MainActivity.show(this);
+//                List<Class<?>> classes=new ArrayList<>();
+//                classes.add(ShenlunVideoListActivity.class);
+//                classes.add(MainActivity.class);
+                AppManager.getAppManager().finishAllActivityBefore(ShenlunVideoListActivity.class, MainActivity.class);
+                ShenlunVideoListActivity.show(this, CommonDef.LONG_DISSERTATION);
+                break;
+            case R.id.tv_original://查看原题
+                if (topicDialogFragment != null) {
+                    topicDialogFragment.show(getSupportFragmentManager(), TAG);
+                }
+                break;
+            case R.id.tv_apply_artificial://查看原题
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("id_", essayTrainId);
+                    jsonObject.put("content_", et_input1.getText().toString().trim());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ((ShenlunAnswerPresenter) getPresenter(ShenlunAnswer)).commitShenglunAnswer(Constants.Small_essay_user_answer, jsonObject.toString());
+                break;
+            case R.id.tv_commit_and_save://提交
+                showInputDialog();
+                break;
+//            case R.id.tv_commit_and_save://查看原题
+//                //T.showShort("提交保存");
+//                //添加训练总结
+//                RetrofitClient retrofitClient = RetrofitClient.getInstance(AppApplication.getAppContext(), ApiService.BaseURL);
+//                ApiService api = retrofitClient.create(ApiService.class);
+//                MultipartBody.Builder mbody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+////                if (files != null) {
+////                    for (int i = 0; i < files.size(); i++) {
+////                        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+////                        mbody.addFormDataPart("file", files.get(i).getName(), imageBody);
+////                    }
+////                }
+//                mbody.addFormDataPart("content_", et_input1.getText().toString());
+//                mbody.addFormDataPart("type_", "4");
+//                //传一个Id
+//                List<String> stringList = new ArrayList<>();
+////                for (SummaryTrainingDetailBean.DataBean dataBeans : dataBeans) {
+////                    stringList.add(dataBeans.getId_());
+////                }
+//                //大申论的题目id
+//                stringList.add(SPUtil.getInstance().getString("big_topic_id"));
+//                JSONArray jsonArray = new JSONArray(stringList);
+//                mbody.addFormDataPart("question_id_", jsonArray.toString());
+//                api.insert_tips_total(Constants.Insert_tips_total, mbody.build()).map(new Function<BaseResult, BaseResult>() {
+//                    @Override
+//                    public BaseResult apply(BaseResult baseResult) throws Exception {
+//                        return baseResult;
+//                    }
+//                }).compose(RetrofitClient.schedulersTransformer).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<BaseResult>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+////                   addSubscribe(d);//添加订阅
+//                        showLoading();
+//                    }
+//
+//                    @Override
+//                    public void onNext(BaseResult baseResult) {
+//                        hideLoading();
+//                        if (baseResult.getState() == 1) {
+//                            T.showShort(baseResult.getMsg());
+//                        } else {
+//                            T.showShort(baseResult.getMsg());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        // mView.returnXinCeBasicTopicView(null);
+////                mView.showError(e.getMessage());
+//                        hideLoading();
+//                        showError(e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        hideLoading();
+//                  

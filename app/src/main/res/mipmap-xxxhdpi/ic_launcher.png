@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <target>android-27</target>
+      </config>
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
+  </component>
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/grow/GrowRecodeActivity.java" line="36" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="60922556-d04f-4849-aa15-0150f6c1a18d" name="Default Changelist" comment="环信连接不到服务器修改">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_EightActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_EightActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_FiveActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_FiveActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_SixActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/B_Shenlun_SixActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/ShenlunVideoListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/bigshenlun/activity/ShenlunVideoListActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/training/TrainingThirdActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/training/TrainingThirdActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/xingce/activity/XingceIndexActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/xingce/activity/XingceIndexActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/xingce/fragment/XingceIndexFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/moreTurn/xingce/fragment/XingceIndexFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/shenlun/step1/LFirstActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/shenlun/step1/LFirstActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/shenlun/step2/L_FourActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/shenlun/step2/L_FourActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/ui/fragment/courseFragment/MoreTrainingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/lixing/exampletest/ui/fragment/courseFragment/MoreTrainingActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_shenlun_eight.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_shenlun_eight.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_shenlun_eight1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_shenlun_eight1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/generated/not_namespaced_r_class_sources/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/generated/source/r/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/aapt_friendly_merged_manifests/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/annotation_processor_list/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/check_manifest_result/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/compile_only_not_namespaced_r_class_jar/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/incremental/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/intermediate-jars/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/javac/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/jniLibs/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/library_assets/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/library_manifest/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/lint_jar/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/merged_manifests/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/packaged_res/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/public_res/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/res/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/rs/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/shader_assets/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/shaders/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/symbols/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/intermediates/transforms/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/outputs/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-ex_so/build/tmp/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/generated/not_namespaced_r_class_sources/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/generated/source/r/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/aapt_friendly_merged_manifests/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/annotation_processor_list/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/check_manifest_result/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/compile_only_not_namespaced_r_class_jar/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/incremental/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/intermediate-jars/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/javac/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/jniLibs/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/library_assets/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/library_manifest/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/lint_jar/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/merged_manifests/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/packaged_res/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/public_res/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/res/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/rs/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/shader_assets/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/shaders/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/symbols/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/intermediates/transforms/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/outputs/" />
+    <ignored path="$PROJECT_DIR$/JKeyboardPanelSwitch-master-library/build/tmp/" />
+    <ignored path="$PROJECT_DIR$/gsyVideoPlayer-base/build/generated/not_namespaced_r_class_sources/" />
+    <ignored path="$PROJECT_DIR$/gsyVi

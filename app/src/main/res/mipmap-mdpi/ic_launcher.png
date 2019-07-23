@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_show_material_original_topic" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/blackText"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="第五步-逻辑视图完整写作"
+                android:textSize="@dimen/sp_16" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="范文1"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:textColor="@color/gray"-->
+            <!--android:textSize="@dimen/sp_14" />-->
+
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/border"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@color/grayDivider" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/et_subtitle1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:minHeight="50dp"-->
+            <!--android:paddingStart="@dimen/margin_width_20"-

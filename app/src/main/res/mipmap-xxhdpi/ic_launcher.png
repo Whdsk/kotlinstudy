@@ -1,0 +1,177 @@
+package com.lixing.exampletest.shenlun.step1;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.annotation.Nullable;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.lixing.exampletest.R;
+import com.lixing.exampletest.common.Constants;
+import com.lixing.exampletest.shenlun.ldt.step.bean.S_MaterialBean;
+import com.lixing.exampletest.shenlun.step1.bean.L_ShenlunData;
+import com.lixing.exampletest.shenlun.step1.bean.L_Shenlun_Title_Bean;
+import com.lixing.exampletest.shenlun.step1.constract.L_Shenlun_Constract;
+import com.lixing.exampletest.shenlun.step1.model.L_Shenlun_Model;
+import com.lixing.exampletest.shenlun.step1.presenter.L_Shenlun_Presenter;
+import com.lixing.exampletest.stroge.sp.SPUtil;
+import com.lixing.exampletest.ui.activity.base.BaseActivity;
+import com.lixing.exampletest.ui.training.basis_subject.PickPoint.mvp.bean.ShenlunTraingBean;
+import com.lixing.exampletest.utils.T;
+import com.lixing.exampletest.widget.CounterLayout;
+import com.lixing.exampletest.widget.ShowMaterialLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+/**
+ * @author gaohangbo on 2019/1/6
+ **/
+public class LFirstActivity extends BaseActivity<L_Shenlun_Presenter> implements L_Shenlun_Constract.View {
+    private static final String TAG = "LFirstActivity";
+    @BindView(R.id.tv_material)
+    TextView tvMaterial;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
+    @BindView(R.id.tv_first)
+    TextView tv_first;
+    @BindView(R.id.tv_second)
+    TextView tv_second;
+    @BindView(R.id.tv_third)
+    TextView tv_third;
+    @BindView(R.id.counter)
+    CounterLayout counter;
+    @BindView(R.id.et_title)
+    EditText etTitle;
+    @BindView(R.id.et_subtitle)
+    EditText etSubtitle;
+    @BindView(R.id.showMaterialLayout)
+    ShowMaterialLayout showMaterialLayout;
+    private String essayTrainId;
+    //材料題
+    //private List<ShenlunTraingBean.DataBean.QuestionDataBean.TpMaterialResultBean> tpMaterialResultBeans=new ArrayList<>();
+    private List<L_Shenlun_Title_Bean.DataBean.TitleListBean> titleListBeans=new ArrayList<>();
+    private List<S_MaterialBean.DataBean> dataBeanList=new ArrayList<>();
+    private String title_source;
+    private String title_content;
+    private String title_require;
+    //题目id
+    private String topic_id;
+    @BindView(R.id.tab_material_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.vp_material_detail)
+    ViewPager vpModuleDetail;
+
+    public static boolean show(Context context, String essayTrainId, int topic_position) {
+        Intent intent = new Intent(context, LFirstActivity.class);
+        intent.putExtra("essayTrainId",essayTrainId);
+        intent.putExtra("topic_position",topic_position);
+        context.startActivity(intent);
+        return true;
+    }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_ldt_first;
+    }
+
+    private void showMaterial(boolean show) {
+        if (show) {
+            showMaterialLayout.show();
+        } else {
+            showMaterialLayout.dismiss();
+        }
+        tvMaterial.setSelected(show);
+    }
+
+
+    private void showCount() {
+        String title = etTitle.getText().toString();
+        String subtitle = etSubtitle.getText().toString();
+        counter.update(title.length() + subtitle.length());
+        tvRight.setEnabled(!counter.isUpper() && !TextUtils.isEmpty(title));
+    }
+
+    @Override
+    protected void initView() {
+        tvMaterial.setVisibility(View.GONE);
+        essayTrainId=getIntent().getStringExtra("essayTrainId");
+
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("essay_id_", essayTrainId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPresenter.getShenlunTitle(Constants.Find_big_essay_title,jsonObject.toString());
+        //获取材料接口
+        JSONObject jsonObject1 = new JSONObject();
+        try {
+            jsonObject1.put("essay_id_", essayTrainId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mPresenter.getS_MaterialList(Constants.Find_small_essay_material,jsonObject1.toString());
+
+        tvRight.setText(getResources().getString(R.string.next));
+
+        etSubtitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showCount();
+            }
+        });
+
+        etTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                showCount();
+            }
+        });
+        //  counter.setMax(dtMultipleTopic.getEssayQuestions().get(0).getWordMaxLimit());
+//        etTitle.setText(dtMultipleTopic.getMyTitle());
+//        etSubtitle.setText(dtMultipleTopic.getMySubtitle());
+    }
+
+    @Override
+    protected L_Shenlun_Presenter initPresenter(@Nullable Bundle savedInstanceState) {
+        return new L_Shenlun_Presenter(new L_Shenlun_Model(),this);
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.tv_material, R.id.tv_right, R.id.showMaterialLayout})
+    public void onViewClicked(View view) {
+       // ViewAnimationUtil.clickAnim(view,null);
+        switch (view.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                br
